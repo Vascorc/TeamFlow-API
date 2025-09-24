@@ -1,0 +1,14 @@
+<resources>
+    <!-- Fundo principal -->
+    <color name="hevy_background">#121212</color>
+
+    <!-- Azul da Hevy -->
+    <color name="hevy_blue">#267EE8</color>
+
+    <!-- Texto padrão -->
+    <color name="hevy_text">#000000</color>
+
+    <!-- Cores adicionais opcionais -->
+    <color name="hevy_gray_dark">#2C2C2E</color>
+    <color name="hevy_gray_light">#F2F2F2</color>
+</resources>

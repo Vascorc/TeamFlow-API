@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@drawable/card_background">      <!-- def em res/drawable/ para dar cantinhos arredondados e sombra leve-->
+
+
+    <!-- Nome do projeto -->
+    <TextView
+        android:id="@+id/textNomeProjeto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nome do Projeto"
+        android:textColor="@color/hevy_text"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textStatusProjeto"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- Status do projeto -->
+    <TextView
+        android:id="@+id/textStatusProjeto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pendente"
+        android:textColor="@color/hevy_blue"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textNomeProjeto"
+        app:layout_constraintBottom_toBottomOf="@id/textNomeProjeto"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
