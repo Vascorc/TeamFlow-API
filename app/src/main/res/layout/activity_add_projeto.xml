@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/hevy_background">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:title="Adicionar Projeto"
+        android:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Guideline horizontal no final do primeiro terço -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTerco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.24" />
+
+    <!-- ScrollView com campos -->
+    <ScrollView
+        android:id="@+id/scrollTarefas"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/topAppBar"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalvarProjeto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/containerCampos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center_horizontal">
+
+            <!-- Título do projeto -->
+            <EditText
+                android:id="@+id/editTituloProjeto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Título do projeto"
+                android:inputType="textCapSentences"
+                android:layout_marginBottom="24dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:backgroundTint="@android:color/white"/>
+
+            <!-- Container para tarefas -->
+            <LinearLayout
+                android:id="@+id/containerTarefas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:divider="@android:color/white"
+                android:showDividers="middle"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
+                android:backgroundTint="@android:color/white"/>
+
+            <!-- Botão para adicionar nova tarefa -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdicionarTarefa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adicionar Tarefa"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <!-- Container para usuários -->
+            <LinearLayout
+                android:id="@+id/containerUsuarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:divider="@android:color/white"
+                android:showDividers="middle"/>
+
+            <!-- Botão para adicionar responsável -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAdicionarUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adicionar Responsável (Email)"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Botão Salvar projeto -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSalvarProjeto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Salvar Projeto"
+        android:textColor="@android:color/white"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

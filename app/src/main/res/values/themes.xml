@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme -->
-    <style name="Theme.ProjetoIndividual" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.ProjetoIndividual" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color (azul Hevy) -->
         <item name="colorPrimary">@color/hevy_blue</item>
         <item name="colorPrimaryVariant">@color/hevy_blue</item>
@@ -19,12 +19,6 @@
 
         <!-- Texto padrão -->
         <item name="android:textColor">@color/hevy_text</item>
-    </style>
-
-    <!-- Theme sem ActionBar -->
-    <style name="Theme.ProjetoIndividual.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
     <!-- AppBar overlay -->

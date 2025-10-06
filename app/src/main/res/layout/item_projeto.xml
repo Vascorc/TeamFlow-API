@@ -4,9 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
     android:padding="12dp"
-    android:background="@drawable/card_background">      <!-- def em res/drawable/ para dar cantinhos arredondados e sombra leve-->
-
+    android:background="@drawable/card_background">
 
     <!-- Nome do projeto -->
     <TextView
@@ -14,13 +14,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Nome do Projeto"
-        android:textColor="@color/hevy_text"
+        android:textColor="@android:color/white"
+        android:letterSpacing="0.05"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textStatusProjeto"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toTopOf="@+id/textDataProjeto"
+        app:layout_constraintVertical_chainStyle="packed"/>
 
     <!-- Status do projeto -->
     <TextView
@@ -33,5 +35,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/textNomeProjeto"
         app:layout_constraintBottom_toBottomOf="@id/textNomeProjeto"/>
+
+    <!-- Data da primeira tarefa -->
+    <TextView
+        android:id="@+id/textDataProjeto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Primeira tarefa até:"
+        android:textSize="14sp"
+        android:textColor="@color/hevy_blue"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/textNomeProjeto"
+        app:layout_constraintTop_toBottomOf="@id/textNomeProjeto"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

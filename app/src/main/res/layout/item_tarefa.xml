@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:padding="12dp"
+    android:background="@drawable/card_background">
+
+    <!-- Nome da tarefa (destaque) -->
+    <TextView
+        android:id="@+id/textTituloTarefa"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Título da Tarefa"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Nome do projeto (menor, abaixo da tarefa) -->
+    <TextView
+        android:id="@+id/textNomeProjeto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Nome do Projeto"
+        android:textColor="@color/hevy_gray_light"
+        android:textSize="14sp"
+        android:letterSpacing="0.03"
+        app:layout_constraintStart_toStartOf="@id/textTituloTarefa"
+        app:layout_constraintTop_toBottomOf="@id/textTituloTarefa"
+        app:layout_constraintEnd_toEndOf="@id/textTituloTarefa"
+        android:layout_marginTop="4dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,35 +1,31 @@
+// Conteúdo para: com/example/projetoindividual/model/Tarefa.java
 package com.example.projetoindividual.model;
 
-public class Tarefa {
-    public String titulo;
-    public String descricao;
+import java.io.Serializable;
+
+public class Tarefa implements Serializable {
+
+    // 1. Adicionar os campos 'id' e 'projetoId'
+    public String projetoId;
+    public String id, titulo;
     public String dataConclusao;
     public boolean concluida;
 
-    public Tarefa(String titulo, String descricao, String dataConclusao) {
+    public Tarefa() {} //pode ser preciso
+    // 2. Criar um construtor principal que inclui todos os campos
+    public Tarefa(String id, String titulo, String dataConclusao, boolean concluida, String projetoId) {
+        this.id = id;
         this.titulo = titulo;
-        this.descricao = descricao;
         this.dataConclusao = dataConclusao;
-        this.concluida = false;
+        this.concluida = concluida;
+        this.projetoId = projetoId;
     }
 
-    // Alterna o status de concluída
-    public void marcarConcluida(boolean status) {
-        this.concluida = status;
-    }
+    // 3. Criar um construtor secundário para quando se cria uma tarefa nova (sem ID)
+    public Tarefa(String titulo,String dataConclusao, boolean concluida) {
+        this.titulo = titulo;
+        this.dataConclusao = dataConclusao;
+        this.concluida = concluida;
 
-    // Alterar título da tarefa
-    public void alterarTitulo(String novoTitulo) {
-        this.titulo = novoTitulo;
-    }
-
-    // Alterar descrição da tarefa
-    public void alterarDescricao(String novaDescricao) {
-        this.descricao = novaDescricao;
-    }
-
-    // Alterar data de conclusão
-    public void alterarDataConclusao(String novaData) {
-        this.dataConclusao = novaData;
     }
 }

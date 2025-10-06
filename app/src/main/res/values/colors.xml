@@ -11,4 +11,6 @@
     <!-- Cores adicionais opcionais -->
     <color name="hevy_gray_dark">#2C2C2E</color>
     <color name="hevy_gray_light">#F2F2F2</color>
+    <color name="fundo_card">#1E1E1E</color>
+
 </resources>

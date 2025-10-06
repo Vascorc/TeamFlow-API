@@ -1,6 +1,6 @@
 package com.example.projetoindividual.ui.home;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +10,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import com.example.projetoindividual.AddProjetoActivity;
 import com.example.projetoindividual.R;
+import com.example.projetoindividual.database.FirebaseHelper;
 import com.example.projetoindividual.databinding.FragmentHomeBinding;
 import com.example.projetoindividual.model.Projeto;
 import com.example.projetoindividual.model.Tarefa;
+import com.example.projetoindividual.ui.ProjetoDetalheActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,55 +28,88 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private List<Projeto> listaProjetos;
+    private List<Projeto> listaProjetos = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
 
-        // --- Criar dados mock ---
-        listaProjetos = new ArrayList<>();
+        // Botão de ir para o calendário
+        binding.btnIrCalendario.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_content_main);
+            navController.navigate(R.id.nav_calendario);
+        });
 
-        List<Tarefa> tarefas1 = new ArrayList<>();
-        tarefas1.add(new Tarefa("Planejar treino", "Definir metas semanais", "2025-10-01"));
-        tarefas1.add(new Tarefa("Comprar equipamento", "Halters e colchonetes", "2025-10-03"));
 
-        List<Tarefa> tarefas2 = new ArrayList<>();
-        tarefas2.add(new Tarefa("Criar cardápio", "Plano nutricional semanal", "2025-10-05"));
+        return binding.getRoot();
+    }
 
-        listaProjetos.add(new Projeto("Projeto Academia", tarefas1));
-        listaProjetos.add(new Projeto("Projeto Nutrição", tarefas2));
 
-        // --- Adicionar TextViews dinâmicos ---
-        LinearLayout layoutProjetos = binding.containerProjetos;    //é equivalente a usar findViewById(R.id.containerProjetos),
-                                                                    // mas é mais seguro e direto, evitando erros se o id mudar.
+    @Override
+    public void onResume() {
+        super.onResume();
 
-        for (Projeto projeto : listaProjetos) {
-            // Inflar o card
-            View card = LayoutInflater.from(getContext())
-                    .inflate(R.layout.item_projeto, layoutProjetos, false); //vai ligar o card que criei em R.layout.item_projeto ao layout dos projetos
+        // Limpar cards antigos
+        binding.containerProjetos.removeAllViews();
 
-            // Preencher os campos
-            TextView nome = card.findViewById(R.id.textNomeProjeto);
-            TextView status = card.findViewById(R.id.textStatusProjeto);
-            nome.setText(projeto.nome);
-            status.setText(projeto.getStatus());
+        // Buscar projetos do Firebase
+        FirebaseHelper.getAllProjectsForCurrentUser((projetos, error) -> {
+            if (error != null) {
+                // mostrar mensagem de erro, se quiser
+                return;
+            }
 
-            // Adicionar o card ao LinearLayout
-            layoutProjetos.addView(card);
+            listaProjetos = projetos;
+            // Mostrar cards na home
+            ordenarProjetos(listaProjetos, binding.containerProjetos);
+        });
+    }
+
+
+    private void ordenarProjetos(List<Projeto> projetos, LinearLayout layout) {
+        for (Projeto projeto : projetos) {
+            if (projeto.getEstado().equals("Em andamento") || projeto.getEstado().equals("Por começar")) {
+                adicionarCardProjeto(layout, projeto);
+            }
         }
+    }
 
+    private void adicionarCardProjeto(LinearLayout layout, Projeto projeto) {
+        View card = LayoutInflater.from(getContext())
+                .inflate(R.layout.item_projeto, layout, false);
 
+        TextView nome = card.findViewById(R.id.textNomeProjeto);
+        TextView status = card.findViewById(R.id.textStatusProjeto);
+        TextView dataProjeto = card.findViewById(R.id.textDataProjeto);
 
-        return root;
+        nome.setText(projeto.nome);
+        status.setText(projeto.getEstado());
+
+        String primeiraData = "";
+        for (Tarefa t : projeto.tarefas) {
+            if (primeiraData.isEmpty() || t.dataConclusao.compareTo(primeiraData) < 0) {
+                primeiraData = t.dataConclusao;
+            }
+        }
+        dataProjeto.setText("Primeira tarefa até: " + primeiraData);
+
+        card.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ProjetoDetalheActivity.class);
+            intent.putExtra(ProjetoDetalheActivity.EXTRA_PROJETO, projeto);
+            startActivity(intent);
+        });
+
+        layout.addView(card);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        FloatingActionButton fab = requireActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(null); // limpar listener
         binding = null;
     }
+
 }

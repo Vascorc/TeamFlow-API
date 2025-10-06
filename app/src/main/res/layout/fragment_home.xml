@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/hevy_background"
     android:padding="16dp">
 
-    <LinearLayout
-        android:id="@+id/containerProjetos"
+    <!-- Parte que rola (os projetos) -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/textTituloHome"
+        <LinearLayout
+            android:id="@+id/containerProjetos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Projetos"
-            android:textSize="24sp"
-            android:textColor="@color/hevy_blue"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:paddingBottom="16dp"/>
+            android:orientation="vertical"
+            android:padding="8dp">
 
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/textTituloHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Projetos"
+                android:textSize="24sp"
+                android:textColor="@color/hevy_blue"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:paddingBottom="16dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnIrCalendario"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="192dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Ver Calendário" />
+
+</LinearLayout>
