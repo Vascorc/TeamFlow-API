@@ -3,6 +3,8 @@ package com.example.projetoindividual.ui;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -195,4 +197,31 @@ public class ProjetoDetalheActivity extends AppCompatActivity {
         finish();
         return true;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_proj_detalhe, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_delete) {
+            // Confirma que o projeto existe
+            if (projeto != null) {
+                FirebaseHelper.removerProjeto(projeto.id, (success, error) -> {
+                    if (success) {
+                        Toast.makeText(this, "Projeto removido com sucesso!", Toast.LENGTH_SHORT).show();
+                        finish(); // volta à lista de projetos
+                    } else {
+                        Toast.makeText(this, "Erro ao remover projeto: " + error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

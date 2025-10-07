@@ -23,13 +23,19 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+            return;
+        }
+
         setContentView(R.layout.activity_login);
 
         emailEditText = findViewById(R.id.editTextEmail);
         passwordEditText = findViewById(R.id.editTextPassword);
         loginButton = findViewById(R.id.buttonLogin);
-
-        mAuth = FirebaseAuth.getInstance();
 
         loginButton.setOnClickListener(v -> loginUser());
 
@@ -40,9 +46,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
-    // No ficheiro: LoginActivity.java
-
 
     private void loginUser() {
 
