@@ -222,9 +222,7 @@ public class FirebaseHelper {
     }
 
 
-    // =========================
-    // CALLBACK
-    // =========================
+
 
     public interface FirebaseCallback<T> {
         void onComplete(T result, String errorMessage);

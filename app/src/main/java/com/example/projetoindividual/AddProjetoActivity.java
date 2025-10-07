@@ -13,6 +13,7 @@ import com.example.projetoindividual.model.Projeto;
 import com.example.projetoindividual.model.Tarefa;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,7 +104,7 @@ public class AddProjetoActivity extends AppCompatActivity {
             return;
         }
 
-        // 1️⃣ Criar lista de tarefas
+        // Criar lista de tarefas
         List<Tarefa> listaTarefas = new ArrayList<>();
         for (int i = 0; i < containerTarefas.getChildCount(); i++) {
             LinearLayout layout = (LinearLayout) containerTarefas.getChildAt(i);
@@ -127,6 +128,11 @@ public class AddProjetoActivity extends AppCompatActivity {
             if (!email.isEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 listaEmails.add(email);
             }
+        }
+
+        String emailAtual = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if (emailAtual != null && !listaEmails.contains(emailAtual)) {
+            listaEmails.add(emailAtual);
         }
 
         // 3️⃣ Criar projeto

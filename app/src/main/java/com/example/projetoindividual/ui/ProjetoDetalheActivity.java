@@ -1,6 +1,7 @@
 package com.example.projetoindividual.ui;
 
 import android.os.Bundle;
+import android.text.SpannableString;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckBox;
@@ -14,6 +15,7 @@ import com.example.projetoindividual.R;
 import com.example.projetoindividual.database.FirebaseHelper;
 import com.example.projetoindividual.model.Projeto;
 import com.example.projetoindividual.model.Tarefa;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 
 public class ProjetoDetalheActivity extends AppCompatActivity {
@@ -29,39 +31,65 @@ public class ProjetoDetalheActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projeto_detalhe);
 
+        // Pega a toolbar do layout e define como ActionBar
+        MaterialToolbar toolbar = findViewById(R.id.toolbarProjeto);
+        setSupportActionBar(toolbar);
+
+        // Habilita seta de voltar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            toolbar.setTitleTextColor(getResources().getColor(android.R.color.white, null));
+            toolbar.setSubtitleTextColor(getResources().getColor(android.R.color.white, null));
+        }
+
+
+
+        // Pega os elementos do layout
         containerConteudo = findViewById(R.id.containerConteudo);
         btnTarefas = findViewById(R.id.btnTarefas);
         btnResponsaveis = findViewById(R.id.btnResponsaveis);
 
-        // Habilitar seta de voltar no ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }
-
+        // Recebe o projeto passado na intent
         Projeto projIntent = (Projeto) getIntent().getSerializableExtra(EXTRA_PROJETO);
         if (projIntent == null) {
             finish();
             return;
         }
 
+        // Busca o projeto no Firebase
         FirebaseHelper.getProjectById(projIntent.id, (proj, error) -> {
             if (proj != null) {
                 projeto = proj;
+
+                // Atualiza título e subtítulo da ActionBar
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(projeto.nome);
-                    getSupportActionBar().setSubtitle("Estado: " + projeto.getEstado());
+
+                    SpannableString subtitle = new SpannableString("Estado: " + projeto.getEstado());
+                    subtitle.setSpan(
+                            new android.text.style.RelativeSizeSpan(0.7f),
+                            0,
+                            subtitle.length(),
+                            android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                    );
+                    getSupportActionBar().setSubtitle(subtitle);
                 }
-                mostrarTarefas(); // Mostrar tarefas por padrão
+
+
+                // Mostra as tarefas por padrão
+                mostrarTarefas();
             } else {
                 Toast.makeText(this, "Erro ao carregar projeto: " + error, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
 
+        // Configura os botões de alternar entre tarefas e responsáveis
         btnTarefas.setOnClickListener(v -> mostrarTarefas());
         btnResponsaveis.setOnClickListener(v -> mostrarResponsaveis());
     }
+
 
     private void mostrarTarefas() {
         containerConteudo.removeAllViews();
@@ -96,6 +124,7 @@ public class ProjetoDetalheActivity extends AppCompatActivity {
             TextView txtTitulo = new TextView(this);
             txtTitulo.setText(tarefa.titulo);
             txtTitulo.setTextSize(18);
+            txtTitulo.setPadding(16, 0, 0, 0); // 16px de espaço entre checkbox e texto
             txtTitulo.setTextColor(getResources().getColor(android.R.color.white, null));
             txtTitulo.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
 

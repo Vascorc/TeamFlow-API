@@ -13,8 +13,11 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@drawable/side_nav_bar"
         android:titleTextColor="@android:color/white"
+        app:subtitleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="Detalhes do Projeto" />
+        app:title="Detalhes do Projeto"
+        app:subtitle="Estado: ..."/>
+
 
     <!-- Conteúdo -->
     <ScrollView
