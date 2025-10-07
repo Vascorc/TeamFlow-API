@@ -97,56 +97,38 @@ public class ProjetoDetalheActivity extends AppCompatActivity {
         containerConteudo.removeAllViews();
 
         for (Tarefa tarefa : projeto.tarefas) {
-            LinearLayout linha = new LinearLayout(this);
-            linha.setOrientation(LinearLayout.HORIZONTAL);
-            linha.setPadding(8, 8, 8, 8);
-            linha.setWeightSum(3);
+            View itemView = getLayoutInflater().inflate(R.layout.detalhe_tarefa, containerConteudo, false);
 
-            CheckBox checkbox = new CheckBox(this);
+            CheckBox checkbox = itemView.findViewById(R.id.checkboxTarefa);
+            TextView txtTitulo = itemView.findViewById(R.id.txtTituloTarefa);
+            TextView txtData = itemView.findViewById(R.id.txtDataConclusao);
+            TextView btnApagar = itemView.findViewById(R.id.btnApagarTarefa);
+
             checkbox.setChecked(tarefa.concluida);
-            checkbox.setScaleX(1.1f);
-            checkbox.setScaleY(1.1f);
-
-            int[][] states = {
-                    new int[]{android.R.attr.state_checked},
-                    new int[]{-android.R.attr.state_checked}
-            };
-            int[] colors = {
-                    getResources().getColor(R.color.hevy_blue, null),
-                    getResources().getColor(android.R.color.white, null)
-            };
-            checkbox.setButtonTintList(new android.content.res.ColorStateList(states, colors));
-
+            txtTitulo.setText(tarefa.titulo);
+            txtData.setText("Concluir até: " + tarefa.dataConclusao);
 
             checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 tarefa.concluida = isChecked;
                 atualizarTarefa(tarefa);
             });
 
-            TextView txtTitulo = new TextView(this);
-            txtTitulo.setText(tarefa.titulo);
-            txtTitulo.setTextSize(18);
-            txtTitulo.setPadding(16, 0, 0, 0); // 16px de espaço entre checkbox e texto
-            txtTitulo.setTextColor(getResources().getColor(android.R.color.white, null));
-            txtTitulo.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            btnApagar.setOnClickListener(v -> {
+                FirebaseHelper.removerTarefa(projeto.id, tarefa.id, tarefa, (success, error) -> {
+                    if (success) {
+                        Toast.makeText(this, "Tarefa removida", Toast.LENGTH_SHORT).show();
+                        projeto.tarefas.remove(tarefa);
+                        mostrarTarefas(); // atualiza a lista
+                    } else {
+                        Toast.makeText(this, "Erro ao remover tarefa: " + error, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
 
-            TextView txtData = new TextView(this);
-            txtData.setText(tarefa.dataConclusao);
-            txtData.setTextSize(16);
-            txtData.setTextColor(getResources().getColor(R.color.hevy_blue, null));
-            txtData.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
-
-            LinearLayout.LayoutParams paramsCheckbox = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.26f);
-            LinearLayout.LayoutParams paramsTitulo = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.7f);
-            LinearLayout.LayoutParams paramsData = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
-
-            linha.addView(checkbox, paramsCheckbox);
-            linha.addView(txtTitulo, paramsTitulo);
-            linha.addView(txtData, paramsData);
-
-            containerConteudo.addView(linha);
+            containerConteudo.addView(itemView);
         }
     }
+
 
     private void mostrarResponsaveis() {
         containerConteudo.removeAllViews();

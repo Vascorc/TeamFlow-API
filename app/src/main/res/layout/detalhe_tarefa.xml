@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/hevy_gray_dark">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- CheckBox à esquerda -->
+        <CheckBox
+            android:id="@+id/checkboxTarefa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+
+        <!-- Botão apagar à direita -->
+        <TextView
+            android:id="@+id/btnApagarTarefa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apagar"
+            android:textColor="@android:color/holo_red_light"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="8dp"/>
+
+        <!-- Título da tarefa -->
+        <TextView
+            android:id="@+id/txtTituloTarefa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/checkboxTarefa"
+            android:layout_toStartOf="@id/btnApagarTarefa"
+            android:layout_marginStart="12dp"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:text="Nome da tarefa"
+            android:ellipsize="none"
+            android:scrollHorizontally="false"
+            android:layout_alignParentTop="true"/>
+
+        <!-- Data de conclusão abaixo do título -->
+        <TextView
+            android:id="@+id/txtDataConclusao"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtTituloTarefa"
+            android:layout_toEndOf="@id/checkboxTarefa"
+            android:layout_toStartOf="@id/btnApagarTarefa"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/hevy_blue"
+            android:textSize="12sp"
+            android:text="Concluir até: 2025-10-10"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

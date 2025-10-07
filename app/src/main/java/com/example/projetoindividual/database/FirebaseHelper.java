@@ -69,11 +69,6 @@ public class FirebaseHelper {
                 .addOnFailureListener(e -> callback.onComplete(null, e.getMessage()));
     }
 
-
-    // =========================
-    // TAREFAS
-    // =========================
-
     // Adicionar uma tarefa a um projeto
     public static void adicionarTarefa(String projetoId, Tarefa tarefa, FirebaseCallback<Boolean> callback) {
         // 1️⃣ Adiciona na subcoleção "tarefas"

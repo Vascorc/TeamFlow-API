@@ -16,8 +16,7 @@
         app:subtitleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:title="Detalhes do Projeto"
-        app:subtitle="Estado: ..."/>
-
+        app:subtitle="Estado: ..." />
 
     <!-- Conteúdo -->
     <ScrollView
@@ -40,7 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        android:elevation="8dp"
         app:cardCornerRadius="16dp"
         app:cardBackgroundColor="#1E1E1E"
         app:cardElevation="8dp">
@@ -62,7 +60,6 @@
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 app:cornerRadius="50dp"
-                app:iconPadding="8dp"
                 app:backgroundTint="#1F61B1"/>
 
             <com.google.android.material.button.MaterialButton
@@ -75,7 +72,6 @@
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 app:cornerRadius="50dp"
-                app:iconPadding="8dp"
                 app:backgroundTint="#1F61B1" />
 
         </LinearLayout>
