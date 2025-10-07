@@ -187,12 +187,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ca83be24-ab66-4be3-9567-b38b47f30e4d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/detalhe_tarefa.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/projetoindividual/database/FirebaseHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/projetoindividual/database/FirebaseHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/projetoindividual/ui/ProjetoDetalheActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/projetoindividual/ui/ProjetoDetalheActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_projeto_detalhe.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_projeto_detalhe.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/toolbar_proj_detalhe.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/toolbar_proj_detalhe.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

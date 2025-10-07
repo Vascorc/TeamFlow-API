@@ -71,13 +71,18 @@ public class FirebaseHelper {
 
     // Adicionar uma tarefa a um projeto
     public static void adicionarTarefa(String projetoId, Tarefa tarefa, FirebaseCallback<Boolean> callback) {
-        // 1️⃣ Adiciona na subcoleção "tarefas"
         db.collection("projetos")
                 .document(projetoId)
                 .collection("tarefas")
                 .add(tarefa)
                 .addOnSuccessListener(docRef -> {
-                    // 2️⃣ Atualiza a lista de tarefas do projeto
+                    // 🟢 GUARDA O ID GERADO PELO FIREBASE
+                    tarefa.id = docRef.getId();
+                    tarefa.projetoId = projetoId; // garante que o projetoId está preenchido
+
+                    // Atualiza o documento com o ID dentro dele (opcional, mas recomendado)
+                    docRef.set(tarefa);
+
                     db.collection("projetos")
                             .document(projetoId)
                             .update("tarefas", FieldValue.arrayUnion(tarefa))
@@ -86,6 +91,7 @@ public class FirebaseHelper {
                 })
                 .addOnFailureListener(e -> callback.onComplete(false, e.getMessage()));
     }
+
 
     // Remover uma tarefa de um projeto
     public static void removerTarefa(String projetoId, String tarefaId, Tarefa tarefa, FirebaseCallback<Boolean> callback) {
@@ -104,9 +110,7 @@ public class FirebaseHelper {
                 .addOnFailureListener(e -> callback.onComplete(false, e.getMessage()));
     }
 
-    // =========================
-    // USUÁRIOS
-    // =========================
+
 
     // Adicionar um usuário a um projeto
     public static void adicionarUsuario(String projetoId, String email, FirebaseCallback<Boolean> callback) {
