@@ -1,53 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/hevy_background">
 
-    <!-- AppBar com Toolbar -->
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarProjeto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Theme.ProjetoIndividual.AppBarOverlay">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/side_nav_bar"
+        android:titleTextColor="@android:color/white"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Detalhes do Projeto" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbarProjeto"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/side_nav_bar"
-            app:popupTheme="@style/Theme.ProjetoIndividual.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <!-- Conteúdo scrollável -->
+    <!-- Conteúdo -->
     <ScrollView
+        android:id="@+id/scrollConteudo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:padding="16dp"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:background="@color/hevy_background">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
 
         <LinearLayout
-            android:id="@+id/containerTarefas"
+            android:id="@+id/containerConteudo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:background="@color/hevy_background">
+            android:padding="8dp" />
+    </ScrollView>
 
-            <!-- TextView opcional, se quiseres mostrar o nome do projeto no conteúdo -->
-            <TextView
-                android:id="@+id/textNomeProjetoDetalhe"
-                android:layout_width="match_parent"
+    <!-- Barra inferior moderna -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:elevation="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="#1E1E1E"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTarefas"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Nome do Projeto"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="@color/hevy_blue"
-                android:paddingBottom="16dp"
-                android:visibility="gone"/>
+                android:layout_weight="1"
+                android:text="Tarefas"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:cornerRadius="50dp"
+                app:iconPadding="8dp"
+                app:backgroundTint="#1F61B1"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnResponsaveis"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Responsáveis"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                app:cornerRadius="50dp"
+                app:iconPadding="8dp"
+                app:backgroundTint="#1F61B1" />
 
         </LinearLayout>
-    </ScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

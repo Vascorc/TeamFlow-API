@@ -2,11 +2,10 @@ package com.example.projetoindividual.ui;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,17 +14,24 @@ import com.example.projetoindividual.R;
 import com.example.projetoindividual.database.FirebaseHelper;
 import com.example.projetoindividual.model.Projeto;
 import com.example.projetoindividual.model.Tarefa;
+import com.google.android.material.button.MaterialButton;
 
 public class ProjetoDetalheActivity extends AppCompatActivity {
 
     public static final String EXTRA_PROJETO = "extra_projeto";
-
     private Projeto projeto;
+
+    private LinearLayout containerConteudo;
+    private MaterialButton btnTarefas, btnResponsaveis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projeto_detalhe);
+
+        containerConteudo = findViewById(R.id.containerConteudo);
+        btnTarefas = findViewById(R.id.btnTarefas);
+        btnResponsaveis = findViewById(R.id.btnResponsaveis);
 
         // Habilitar seta de voltar no ActionBar
         if (getSupportActionBar() != null) {
@@ -39,34 +45,33 @@ public class ProjetoDetalheActivity extends AppCompatActivity {
             return;
         }
 
-        // Buscar projeto atualizado do Firebase (com tarefas e usuários)
         FirebaseHelper.getProjectById(projIntent.id, (proj, error) -> {
             if (proj != null) {
                 projeto = proj;
                 if (getSupportActionBar() != null) {
                     getSupportActionBar().setTitle(projeto.nome);
+                    getSupportActionBar().setSubtitle("Estado: " + projeto.getEstado());
                 }
-                renderizarTarefas();
-                atualizarEstadoProjeto();
+                mostrarTarefas(); // Mostrar tarefas por padrão
             } else {
                 Toast.makeText(this, "Erro ao carregar projeto: " + error, Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
+
+        btnTarefas.setOnClickListener(v -> mostrarTarefas());
+        btnResponsaveis.setOnClickListener(v -> mostrarResponsaveis());
     }
 
-    private void renderizarTarefas() {
-        LinearLayout containerTarefas = findViewById(R.id.containerTarefas);
-        containerTarefas.removeAllViews();
+    private void mostrarTarefas() {
+        containerConteudo.removeAllViews();
 
         for (Tarefa tarefa : projeto.tarefas) {
-            // Criar layout horizontal
             LinearLayout linha = new LinearLayout(this);
             linha.setOrientation(LinearLayout.HORIZONTAL);
             linha.setPadding(8, 8, 8, 8);
             linha.setWeightSum(3);
 
-            // Checkbox
             CheckBox checkbox = new CheckBox(this);
             checkbox.setChecked(tarefa.concluida);
             checkbox.setScaleX(1.1f);
@@ -82,27 +87,24 @@ public class ProjetoDetalheActivity extends AppCompatActivity {
             };
             checkbox.setButtonTintList(new android.content.res.ColorStateList(states, colors));
 
-            // Quando o usuário marcar/desmarcar a tarefa
+
             checkbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 tarefa.concluida = isChecked;
                 atualizarTarefa(tarefa);
             });
 
-            // TextView título
             TextView txtTitulo = new TextView(this);
             txtTitulo.setText(tarefa.titulo);
             txtTitulo.setTextSize(18);
             txtTitulo.setTextColor(getResources().getColor(android.R.color.white, null));
             txtTitulo.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
 
-            // TextView data
             TextView txtData = new TextView(this);
             txtData.setText(tarefa.dataConclusao);
             txtData.setTextSize(16);
             txtData.setTextColor(getResources().getColor(R.color.hevy_blue, null));
             txtData.setGravity(Gravity.END | Gravity.CENTER_VERTICAL);
 
-            // LayoutParams
             LinearLayout.LayoutParams paramsCheckbox = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.26f);
             LinearLayout.LayoutParams paramsTitulo = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.7f);
             LinearLayout.LayoutParams paramsData = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
@@ -111,13 +113,36 @@ public class ProjetoDetalheActivity extends AppCompatActivity {
             linha.addView(txtTitulo, paramsTitulo);
             linha.addView(txtData, paramsData);
 
-            containerTarefas.addView(linha);
+            containerConteudo.addView(linha);
         }
     }
 
-    /**
-     * Atualiza o estado local do projeto no ActionBar
-     */
+    private void mostrarResponsaveis() {
+        containerConteudo.removeAllViews();
+
+        for (String email : projeto.users) {
+            TextView txtUser = new TextView(this);
+            txtUser.setText(email);
+            txtUser.setTextSize(18);
+            txtUser.setTextColor(getResources().getColor(android.R.color.white, null));
+            txtUser.setPadding(8, 12, 8, 12);
+            txtUser.setGravity(Gravity.START);
+
+            containerConteudo.addView(txtUser);
+        }
+    }
+
+    private void atualizarTarefa(Tarefa tarefa) {
+        FirebaseHelper.updateTask(tarefa, (success, error) -> {
+            if (!success) Toast.makeText(this, "Erro ao atualizar tarefa: " + error, Toast.LENGTH_SHORT).show();
+        });
+
+        atualizarEstadoProjeto();
+        FirebaseHelper.updateProject(projeto, (success, error) -> {
+            if (!success) Toast.makeText(this, "Erro ao atualizar projeto: " + error, Toast.LENGTH_SHORT).show();
+        });
+    }
+
     private void atualizarEstadoProjeto() {
         boolean todasConcluidas = true;
         boolean algumaConcluida = false;
@@ -136,53 +161,9 @@ public class ProjetoDetalheActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Atualiza a tarefa no Firebase e também o estado do projeto
-     */
-    private void atualizarTarefa(Tarefa tarefa) {
-        // Atualiza estado local do projeto
-        atualizarEstadoProjeto();
-
-        // Atualiza tarefa no Firebase
-        FirebaseHelper.updateTask(tarefa, (success, error) -> {
-            if (!success) {
-                Toast.makeText(this, "Erro ao atualizar tarefa: " + error, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Atualiza projeto no Firebase
-        FirebaseHelper.updateProject(projeto, (success, error) -> {
-            if (!success) {
-                Toast.makeText(this, "Erro ao atualizar projeto: " + error, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_projeto_detalhe, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_excluir) {
-            FirebaseHelper.removerProjeto(projeto.id, (success, error) -> {
-                if (success) finish();
-                else Toast.makeText(this, "Erro ao deletar projeto: " + error, Toast.LENGTH_SHORT).show();
-            });
-            return true;
-        } else if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
